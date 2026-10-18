@@ -1,0 +1,51 @@
+{
+  // ==========================================================================
+  //  VS Code 配置（只影响"编辑器体验"，不影响编译结果）
+  //
+  //  ★ 重要：编译器（CMake）和 IntelliSense 是【两套独立】的找文件机制。
+  //    所以会出现"编译成功、但编辑器标红说打不开源文件"这种情况。
+  //    编译用 CMakeLists.txt 里的 target_include_directories，
+  //    编辑器用下面这个 includePath。
+  // ==========================================================================
+
+  // 用 Visual Studio 2022 自带的 CMake，避免"cmake 不在 PATH 里"的问题。
+  "cmake.cmakePath": "D:/vs2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe",
+
+  // 用 VS 生成器：不用手动配置编译器环境，对 Windows 新手最省事。
+  "cmake.generator": "Visual Studio 17 2022",
+  "cmake.platform": "x64",
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+
+  // 打开项目时不要自动配置，先让你手动点一次，出错时能看清是哪一步的问题。
+  "cmake.configureOnOpen": false,
+
+  // ★ 推荐：让 IntelliSense 直接使用 CMake 的真实配置。
+  //   这样以后你再挪头文件目录，编辑器会自动跟上，不用再改这里。
+  //   （需要装了 C/C++ 扩展 + CMake Tools 扩展）
+  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+
+  // 兜底：万一上面那条没生效，这里手动列出所有"找头文件"的目录。
+  //   include/  → #include "snake/game.hpp" 能找到
+  //   src/      → 同目录下的头文件也能找到
+  "C_Cpp.default.includePath": [
+    "${workspaceFolder}/include",
+    "${workspaceFolder}/src"
+  ],
+
+  // ★ 指定编译器路径：IntelliSense 会去问 cl.exe "你的系统头文件在哪"，
+  //   于是 <windows.h>、<vector> 这些才找得到。
+  //   注意：VS 升级后 MSVC 版本号会变（14.44.35207 这段），到时改这一行即可。
+  "C_Cpp.default.compilerPath": "D:/vs2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+
+  // Windows SDK 版本。写错版本号会导致 <windows.h> 还是找不到；
+  // 不确定就删掉这一行，让扩展自己探测。
+  "C_Cpp.default.windowsSdkVersion": "10.0.26100.0",
+
+  // 让编辑器的红波浪线和真实编译保持一致。
+  "C_Cpp.default.cppStandard": "c++20",
+  "C_Cpp.default.intelliSenseMode": "windows-msvc-x64",
+
+  // 源码统一 UTF-8 保存，这是跨平台协作的底线（否则中文注释会乱码）。
+  "files.encoding": "utf8",
+  "files.autoGuessEncoding": false
+}
